@@ -1,0 +1,89 @@
+<div [ngClass]="loaderFlag ? 'loader' : ''"></div>
+<div class="tableMargin">
+  <div *ngIf="!showOrderDetails">
+    <div class="row mb-2">
+      
+      <div *ngIf="totalCash+totalCard === 0" class="col-4 pt-1">
+        Total Income : $0
+      </div>
+      <div *ngIf="totalCash+totalCard > 0"class="col-4 pt-1">
+        Total Income : ${{totalCash}}(Cash) + ${{totalCard}}(Card) = ${{totalCash+totalCard}}
+      </div>
+     
+      <!-- <div class="col-2">
+        <select name="employeeList" id="employeeList" class="form-select point" [(ngModel)]="selectedEmployee" (change)="onSelectEmployee($event.target.value)">
+          <option value="" class="point" selected>Select Employee</option>
+          <option *ngFor="let emp of employeeList" [value]="emp">{{ emp }}</option>
+        </select>
+      </div>
+      <div class="col-3">
+        <div *ngIf="selectedEmployee !== ''" class="pt-1">
+          ${{totalTipCard}} (Card) + ${{totalTipCash}} (Cash) = ${{totalTipCard + totalTipCash}} (Total Tip)
+        </div>
+      </div> -->
+      <div class="col-2">
+        <select name="selectedDay" id="selectedDay" class="form-select point" [(ngModel)]="selectedMonth">
+          <option [value]="0">Select Month</option>
+          <option [value]="1">January</option>
+          <option [value]="2">Fabruary</option>
+          <option [value]="3">March</option>
+          <option [value]="4">April</option>
+          <option [value]="5">May</option>
+          <option [value]="6">June</option>
+          <option [value]="7">July</option>
+          <option [value]="8">August</option>
+          <option [value]="9">September</option>
+          <option [value]="10">October</option>
+          <option [value]="11">November</option>
+          <option [value]="12">December</option>
+        </select>
+      </div>
+      <div class="col-2">
+        <!-- <button type="button" class="btn btn-primary fr mb-2" (click)="loadOrders()">Refresh</button> -->
+        <select name="selectedWeek" id="selectedWeek" class="form-select point" [(ngModel)]="selectedWeek">
+          <option [value]="0">Select Week</option>
+          <option [value]="1">Week-1</option>
+          <option [value]="2">Week-2</option>
+          <option [value]="3">Week-3</option>
+          <option [value]="4">Week-4</option>
+        </select>
+      </div>
+      <div class="col-2">
+        <button type="button" class="btn btn-primary" [disabled]="selectedWeek ==='0' || selectedMonth ==='0'" (click)="genrateReport()">Go</button>
+      </div>
+      <div class="col-2">
+        <button type="button" class="btn btn-primary fr" [disabled]="selectedWeek ==='0' || selectedMonth ==='0' || orderList.length === 0" (click)="exportReport()">Download</button>
+      </div>
+    </div>
+    
+    
+    <table class="table table-bordered" id="report_table">
+      <thead>
+        <tr>
+          <th class="table-header">#</th>
+          <th class="table-header min-w-200px">Customer Name</th>
+          <th class="table-header min-w-250px">Check-In Time</th>
+          <th class="table-header min-w-150px">Employee</th>
+          <th class="table-header min-w-150px">Tip Amount</th>
+          <th class="table-header min-w-150px">Total Amount</th>
+          <th class="table-header">Services</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orderList; let i=index">
+          <td>{{i+1}}</td>
+          <td>{{order.customerName}}</td>
+          <td>{{ order.time | date: 'yyyy/MM/dd | h:mm:ss a'}}</td>
+          <td>{{order.employee}}</td>
+          <td *ngIf="order.tipAmount !== 0">${{order.tipAmount}} ({{order.tipMode}})</td>
+          <td *ngIf="order.tipAmount === 0">${{order.tipAmount}}</td>
+          <td>${{order.total}}</td>
+          <td>{{getOrderString(order.items)}}</td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  
+</div>

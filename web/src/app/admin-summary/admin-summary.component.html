@@ -1,0 +1,76 @@
+<div [ngClass]="loaderFlag ? 'loader' : ''"></div>
+<div class="container max-w">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-3">
+                    <select name="selectedDay" id="selectedDay" class="form-select point max-w-d"
+                        [(ngModel)]="selectedMonth">
+                        <option [value]="0">Select Month</option>
+                        <option [value]="1">January</option>
+                        <option [value]="2">Fabruary</option>
+                        <option [value]="3">March</option>
+                        <option [value]="4">April</option>
+                        <option [value]="5">May</option>
+                        <option [value]="6">June</option>
+                        <option [value]="7">July</option>
+                        <option [value]="8">August</option>
+                        <option [value]="9">September</option>
+                        <option [value]="10">October</option>
+                        <option [value]="11">November</option>
+                        <option [value]="12">December</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <button [disabled]="selectedMonth ==='0'" type="button" class="btn btn-primary"
+                        (click)="getSummary()">Go</button>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="card-body min-h">
+            <div *ngIf="dataLoaded">
+                <div class="row">
+                    <h4>Orders</h4>
+                </div>
+                <div class="row">
+                    <div class="col-2">Total Orders</div>
+                    <div class="col-6">{{summary['total_order']}}</div>
+                </div>
+                <div class="divider"></div>
+                <div class="row">
+                    <h4>Income</h4>
+                </div>
+                <div class="row">
+                    <div class="col-2">Total Income</div>
+                    <div class="col-6">${{summary['total_cash']+summary['total_card']}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">Cash</div>
+                    <div class="col-6">${{summary['total_cash']}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">Card</div>
+                    <div class="col-6">${{summary['total_card']}}</div>
+                </div>
+                <div class="divider"></div>
+                <div class="row">
+                    <h4>Tip</h4>
+                </div>
+                <div class="row">
+                    <div class="col-2">Total Tip</div>
+                    <div class="col-6">${{summary['total_tip_cash']+summary['total_tip_card']}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">Cash</div>
+                    <div class="col-6">${{summary['total_tip_cash']}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">Card</div>
+                    <div class="col-6">${{summary['total_tip_card']}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    

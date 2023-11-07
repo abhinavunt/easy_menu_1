@@ -1,0 +1,90 @@
+.activeTab{
+    color: #495057;
+    background-color: #fff;
+    border-color: #ffffff #ffffff;
+    border-bottom: 3px solid #4e82cf;
+}
+
+.custTab{
+    .nav-item{
+        cursor: pointer;
+    }
+}
+
+.nav-link:hover{
+    border-bottom: 1px solid #dee2e6;
+}
+
+.activeTab:hover{
+    border-bottom: 3px solid #4e82cf;
+}
+
+.menu-items{
+    .list-group{
+        margin:10px;
+    }
+}
+
+.app-footer{
+    position: fixed;
+    height: 80px;
+    bottom: 0;
+    width: 100%;
+}
+
+.nextBtn{
+    width: 185px;
+    height: 55px;
+    font-size: 24px;
+    margin-right: 15px;
+    float: right;
+}
+
+.backToMenu{
+    width: 185px;
+    height: 55px;
+    font-size: 24px;
+    margin-left: 15px;
+}
+
+.right-align{
+    float: right;
+}
+
+.rmBtn{
+    margin-right: 10px;
+}
+
+.addBtn{
+    margin-left: 10px;
+}
+
+.item_qnty{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.item-btn{
+    border-radius: 50%;
+    font-size: 20px;
+    padding-top: 0px;
+    padding-bottom: 5px;
+}
+
+.categoryTile{
+    border: solid 1px silver;
+    height: 100px;
+    background: #9feae3;
+    margin-top: 23px;
+    text-align: center;
+    padding-top: 16px;
+    font-family: cursive;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.list-header{
+    height: 50px;
+    background: #efefef;
+    font-weight: bold;
+}

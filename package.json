@@ -1,0 +1,19 @@
+{
+  "name": "e-menu",
+  "version": "1.0.0",
+  "description": "smart menu",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.9"
+  }
+}

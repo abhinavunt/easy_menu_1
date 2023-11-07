@@ -1,0 +1,26 @@
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="(tab === 'orders') ? 'active activeTab':''" (click)="clickOnTab('orders')">Orders</a>
+  </li>
+  <li class="nav-item" *ngIf="role==='administrator'">
+    <a class="nav-link" [ngClass]="(tab === 'menu') ? 'active activeTab':''" (click)="clickOnTab('menu')">Menu</a>
+  </li>
+  <li class="nav-item" *ngIf="role==='administrator'">
+    <a class="nav-link" [ngClass]="(tab === 'report') ? 'active activeTab':''" (click)="clickOnTab('report')">Report</a>
+  </li>
+  <li class="nav-item" *ngIf="role==='administrator'">
+    <a class="nav-link" [ngClass]="(tab === 'summary') ? 'active activeTab':''" (click)="clickOnTab('summary')">Summary</a>
+  </li>
+</ul>
+<div *ngIf="tab === 'orders'">
+  <app-admin-orders></app-admin-orders>
+</div>
+<div *ngIf="tab === 'menu'">
+  <app-admin-menu></app-admin-menu>
+</div>
+<div *ngIf="tab === 'report'">
+  <app-admin-report></app-admin-report>
+</div>
+<div *ngIf="tab === 'summary'">
+  <app-admin-summary></app-admin-summary>
+</div>

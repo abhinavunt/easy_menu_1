@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <h5 class="modal-title card-title pt-0 pb-0">Warning !!!</h5>
+  <span><i class="fa fa-times fa-lg" (click)="modal.dismiss()" role="button"></i></span>
+</div>
+<div class="modal-body">
+ <p>Are you sure, you want to proceed ?
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="modal.close()">Proceed</button>
+</div>

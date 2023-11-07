@@ -1,0 +1,121 @@
+<div [ngClass]="loaderFlag ? 'loader' : ''"></div>
+<section>
+    <div class="container py-5" style="max-width: 450px;">
+      <div class="row d-flex align-items-center justify-content-center h-100" *ngIf="!notFound">
+            <div class="col-12">
+                <div class="row1">
+                    <div class="col-12">
+                    <div id="telNumber" class="tel"><span class="dialed_number">{{mobileNumber}}</span></div>
+                        <div class="num-pad">
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('1')">
+                                <div class="txt">
+                                    1
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('2')">
+                                <div class="txt">
+                                    2 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('3')">
+                                <div class="txt">
+                                    3 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('4')">
+                                <div class="txt">
+                                    4 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('5')">
+                                <div class="txt">
+                                    5 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('6')">
+                                <div class="txt">
+                                    6 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('7')">
+                                <div class="txt">
+                                    7 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('8')">
+                                <div class="txt">
+                                    8 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('9')">
+                                <div class="txt">
+                                    9 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num clear" (click)="clearNumber()">
+                                <div class="txt">
+                                    Clear
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num" (click)="dialNumber('0')">
+                                <div class="txt">
+                                    0 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num enter" (click)="enter()" [ngClass]="(this.mobileNumber.length === 10) ? '':'btn_disabled'">
+                                <div class="txt">
+                                    Enter
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button type="button" class="btn btn-secondary btnWMN" (click)="withoutMobileCheckinin()">Check-In without Mobile No.</button>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center h-100" *ngIf="notFound">
+            <h3 class="headLine"> Please enter your Name !!!</h3>
+            <div class="row">
+                <div class="col-10">
+                    <input type="text" [(ngModel)]="customerName" class="form-control" placeholder="Enter your name">
+                </div>
+                <div class="col-2"><button type="button" class="btn btn-primary" [disabled]="customerName ===''" (click)="next()">Next</button></div>
+            </div>
+            <div class="row">
+                <span class="backToLogin point" (click)="backToLogin()">Back to Login</span>
+            </div>
+        
+        </div>
+        
+    </div>
+</section>

@@ -1,0 +1,82 @@
+<div [ngClass]="loaderFlag ? 'loader' : ''"></div>
+<div class="tableMargin">
+  <div class="row">
+    <div class="col-3">
+      <div class="card">
+        <div class="card-header">
+          Category
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let category of categoryList; let i = index" class="list-group-item point" [ngClass]="{'selected': selectedIndex === i}" (click)="categorySelect(category);setRow(i)">
+            <div *ngIf="!editCategoryObject[i]">
+              <span>{{category.categoryName}}</span>
+              <i class="fa fa-trash-o fr ms-2 point" aria-hidden="true" (click)="categoryDelete(category);$event.stopPropagation()" ></i>
+              <i class="fa fa-pencil fr point" aria-hidden="true" (click)="categoryEdit(category, i);$event.stopPropagation()"></i>
+            </div>
+            <div *ngIf="editCategoryObject[i]">
+              <input type="text" [(ngModel)]="editCategoryObject.categoryName" placeholder="Item name" class="form-control">
+              <span class="ms-3 underline fr" [class.disabled]="!(editCategoryObject.categoryName && editCategoryObject.categoryName!=='')" (click)="saveEditCategory();$event.stopPropagation()">Save</span><span class="fr" (click)="cancelEditCategory();$event.stopPropagation()">Cancel</span>
+            </div>
+            
+          </li>
+          <li *ngIf="isAddOpen" class="list-group-item ps-2 pe-2">
+            <input type="text" [(ngModel)]="categoryName" class="form-control" placeholder="Enter category name">
+          </li>
+          <li *ngIf="!isAddOpen" class="list-group-item addCategoryLbl" (click)="addCategory()">
+            <span><i class="fa fa-plus me-2" aria-hidden="true"></i>Add Category</span>
+          </li>
+          <li *ngIf="isAddOpen" class="list-group-item saveCancelLbl" (click)="addCategory()">
+            <span (click)="cancelCategory()">Cancel</span><span class="ms-3 underline" [class.disabled]="categoryName.length == 0" (click)="categorySave()">Save</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="card">
+        <div class="card-header">
+          Items <span *ngIf="selectedCategoryName !==''">of "{{selectedCategoryName}}"</span>
+        </div>
+        <div class="card-body" *ngIf="selectedCategoryName !==''">
+          <table *ngIf="showItemTable && selectedItemList.length > 0" class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="col-8">Item Name</th>
+                <th class="col-2">Price</th>
+                <th class="col-2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of selectedItemList; let i = index">
+                <td *ngIf="editItemObject[i]"><input type="text" [(ngModel)]="editItemObject.item" placeholder="Item name" class="form-control"></td>
+                <td *ngIf="!editItemObject[i]">{{item.item}}</td>
+                <td *ngIf="editItemObject[i]"><input type="number" [(ngModel)]="editItemObject.price" placeholder="Item name" class="form-control"></td>
+                <td *ngIf="!editItemObject[i]">{{item.price}}</td>
+                <td *ngIf="!editItemObject[i]">
+                  <i class="fa fa-pencil point" aria-hidden="true" (click)="itemEdit(item, i)"></i>
+                  <i class="fa fa-trash-o ms-2 point" aria-hidden="true" (click)="deleteItem(item)" ></i>
+                </td>
+                <td *ngIf="editItemObject[i]">
+                  <i class="fa fa-check-circle addItemIcons green point" (click)="updateItem()" [class.disabled]="!(editItemObject.item && editItemObject.item!=='' && editItemObject.price)" aria-hidden="true"></i>
+                  <i class="fa fa-times addItemIcons red point ms-3" (click)="cancelEditItem()" aria-hidden="true"></i>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+          <div class="row" *ngIf="showAddPanel">
+            <div class="col-8"><input type="text" [(ngModel)]="newItemName" placeholder="Item name" class="form-control"></div>
+            <div class="col-2"><input type="number" [(ngModel)]="newItemPrice" placeholder="Price" class="form-control"></div>
+            <div class="col-2">
+              <i class="fa fa-check-circle addItemIcons green point" (click)="saveNewItem()" [class.disabled]="!(newItemName && newItemName!=='' && newItemPrice)" aria-hidden="true"></i>
+              <i class="fa fa-times addItemIcons red point ms-3" (click)="toggleAddPanel()" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="underline point" *ngIf="!showAddPanel" (click)="toggleAddPanel()">Add Item</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,191 @@
+<div [ngClass]="loaderFlag ? 'loader' : ''"></div>
+<div class="tableMargin">
+  <div *ngIf="!showOrderDetails">
+    <div class="row">
+      
+      <div *ngIf="totalCash+totalCard === 0 && role==='administrator'" class="col-4 pt-1">
+        Total Income : $0
+      </div>
+      <div *ngIf="totalCash+totalCard > 0 && role==='administrator'"class="col-4 pt-1">
+        Total Income : ${{totalCash}}(Cash) + ${{totalCard}}(Card) = ${{totalCash+totalCard}}
+      </div>
+      <div *ngIf="role!=='administrator'" class="col-4 pt-1">
+        Total Cash : ${{totalCash}}
+      </div>
+      <div class="col-2">
+        <select name="employeeList" id="employeeList" class="form-select point" [(ngModel)]="selectedEmployee" (change)="onSelectEmployee($event.target)">
+          <option value="" class="point" selected>Select Employee</option>
+          <option *ngFor="let emp of employeeList" [value]="emp">{{ emp }}</option>
+        </select>
+      </div>
+      <div class="col-3">
+        <div *ngIf="selectedEmployee !== ''" class="pt-1">
+          ${{totalTipCard}} (Card) + ${{totalTipCash}} (Cash) = ${{totalTipCard + totalTipCash}} (Total Tip)
+        </div>
+      </div>
+      <div class="col-2">
+        <select *ngIf="role==='administrator'" name="selectedDay" id="selectedDay" class="form-select point" [(ngModel)]="selectedDay" (change)="onSelectDay($event.target)">
+          <option *ngFor="let day of daysList" [value]="day.value">{{day.label}}</option>
+        </select>
+      </div>
+      <div class="col-1">
+        <button type="button" class="btn btn-primary fr mb-2" (click)="loadOrders()">Refresh</button>
+      </div>
+    </div>
+    
+    
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="table-header">#</th>
+          <th class="table-header">Customer Name</th>
+          <th class="table-header">Order Status</th>
+          <th class="table-header">Time (YYYY/MM/DD | HH:mm:ss)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orderList; let i=index" (click)="showOrder(order)" class="point">
+          <td [ngClass]="{'new-order': order.state === 'new', 'complete-order' : order.state === 'complete' || order.state === 'modified'}">{{i+1}}</td>
+          <td [ngClass]="{'new-order': order.state === 'new', 'complete-order' : order.state === 'complete' || order.state === 'modified'}">{{order.customerName}}</td>
+          <td [ngClass]="{'new-order': order.state === 'new', 'complete-order' : order.state === 'complete' || order.state === 'modified'}">{{getState(order.state)}}</td>
+          <td [ngClass]="{'new-order': order.state === 'new', 'complete-order' : order.state === 'complete' || order.state === 'modified'}">{{ order.time | date: 'yyyy/MM/dd | h:mm:ss a'}}</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="showOrderDetails" class="container app-container">
+    <div class="card">
+      
+      <div class="card-header">
+        Order details
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <div>Customer Name: </div>
+            <div>Total Amount: </div>
+          </div>
+          <div class="col-6">
+            <div class="bold">{{orderDetails.customerName}}</div>
+            <div class="bold">$ {{orderDetails.total}}</div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="mb-2"><button class="btn btn-primary fr"  type="button" [disabled]="showAddItem" (click)="showAddItem=true">Add Item</button></div>
+          <ul class="list-group mb-2" *ngIf="showAddItem">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-2" *ngIf="categoriesList && categoriesList.length>0">
+                  <select id="categoryList" name="categoryList" [(ngModel)]="selectedCategory" (change)="onSelectCategory($event.target)" class="form-select">
+                    <option value="" disabled selected>Category</option>
+                    <option *ngFor="let category of categoriesList" [value]="category._id"> {{category.categoryName}} </option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <select id="itemList" name="itemList" [(ngModel)]="selectedItem" class="form-select" >
+                    <option value=undefined disabled selected>Select Item</option>
+                    <option *ngFor="let item of selectedItemsList" [ngValue]="item">{{item.item}} | ${{item.price}}</option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  <select class="form-select" [(ngModel)]="itemCount" aria-label="Default select example">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                   </select>
+                </div>
+                <div class="col-2">
+                  <i class="fa fa-check-circle addItemIcons green point" (click)="updateItemList()" [class.disabled]="selectedItem == undefined" aria-hidden="true"></i>
+                  <i class="fa fa-times addItemIcons red ms-3 point" (click)="cancelAddItem()" aria-hidden="true"></i>
+                </div>
+              </div>
+              
+            </li>
+            
+          </ul>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="col-9 table-header">Item</th>
+                <th class="col-1 table-header">Quantity</th>
+                <th class="col-1 table-header">Price</th>
+                <th class="col-1 table-header">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orderDetails.items; let i=index">
+                <td>{{item.item}}</td>
+                <td> {{item.count}}</td>
+                <td>$ {{item.price}}</td>
+                <td><i class="fa fa-trash-o ms-2 point" aria-hidden="true" (click)="removeItem(i)"></i></td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+        
+        
+
+          <div class="card addInfoTable">
+            <div class="card-header table-header">
+              Featured
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-2">Tip</div>
+                  <div class="col-4">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      <button type="button" class="btn sharpBorder" [ngClass]="(orderDetails.tipMode === 'cash') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.tipMode='cash'">Cash</button>
+                      <button type="button" class="btn sharpBorder ms-3" [ngClass]="(orderDetails.tipMode === 'online') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.tipMode='online'">Card</button>
+                    </div>
+                  </div>
+                  <div class="col-2" *ngIf="orderDetails.tipMode !== ''">
+                    <input type="number" min="0" [(ngModel)]="orderDetails.tipAmount" placeholder="Amount" oninput="validity.valid||(value='');" class="form-control">
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                <div class="col-2">Completed by</div>
+                <div class="col-8">
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn sharpBorder" [ngClass]="(orderDetails.employee === 'usha') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.employee='usha'">Usha</button>
+                    <button type="button" class="btn sharpBorder ms-3" [ngClass]="(orderDetails.employee === 'jyoti') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.employee='jyoti'">Jyoti</button>
+                    <button type="button" class="btn sharpBorder ms-3" [ngClass]="(orderDetails.employee === 'pam') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.employee='pam'">Pam</button>
+                    <button type="button" class="btn sharpBorder ms-3" [ngClass]="(orderDetails.employee === 'nitin') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.employee='nitin'">Nitin</button>
+                    <button type="button" class="btn sharpBorder ms-3" [ngClass]="(orderDetails.employee === 'emp5') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.employee='emp5'">Emp 5</button>
+                    <button type="button" class="btn sharpBorder ms-3" [ngClass]="(orderDetails.employee === 'emp6') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.employee='emp6'">Emp 6</button>
+                  </div>
+                </div>
+              </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-2">Payment Mode</div>
+                  <div class="col-4">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      <button type="button" class="btn sharpBorder" [ngClass]="(orderDetails.paymentMode === 'cash') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.paymentMode='cash'">Cash</button>
+                      <button type="button" class="btn sharpBorder ms-3" [ngClass]="(orderDetails.paymentMode === 'online') ? 'btn-primary' : 'btn-light'" (click)="orderDetails.paymentMode='online'">Debit/Credit</button>
+                      </div>
+                  </div>
+                </div>
+              </li>
+              
+            </ul>
+          </div>
+          
+        
+      </div>
+      <div class="card-footer">
+        <div class="row">
+        <div class="col-6"><button class="btn btn-secondary"  type="button" (click)="backToOrders()">Back</button></div>
+        <div class="col-6"><button class="btn btn-success fr" type="button" [disabled]="(orderDetails.paymentMode ==='') || (orderDetails.employee ==='') || orderDetails.items.length===0" (click)="completeOrder()">Complete Order</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

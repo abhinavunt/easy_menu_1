@@ -1,0 +1,41 @@
+<div [ngClass]="loaderFlag ? 'loader' : ''"></div>
+<div *ngIf="!isCompleted" class="container app-container">
+  <div class="mt-1 mb-2 welcomeFont">Welcome {{customerName}}</div>
+  <div class="card" style="margin-bottom: 92px;">
+    <div class="card-header osCardHeader welcomeFont">
+      Order Summary
+    </div>
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let item of addedItemList; let i = index" class="list-group-item welcomeFont">
+        <div class="row">
+          <div class="col-7">{{item.item}}</div>
+          <div class="col-3" >
+            <button type="button" class="btn btn-light item-btn" (click)="decreaseItem(item._id)">-</button>
+            <span class="item_qnty">{{getAddedItemCount(item._id)}}</span>
+            <button type="button" class="btn btn-light item-btn" (click)="increaseItem(item._id)">+</button>
+          </div>
+          <div class="col-2">$ {{getAddedItemPrice(item._id)}}</div>
+        </div>
+      </li>
+      <li class="list-group-item totalLgi">
+        <div class="row">
+          <div class="col-7"></div>
+          <div class="col-3" >
+            <span class="totalLbl welcomeFont">Total :</span>
+          </div>
+          <div class="col-2 totalVal welcomeFont">$ {{totalPrice}}</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<footer *ngIf="!isCompleted" class="footer mt-auto py-3 bg-light app-footer">
+  <button type="button" class="btn btn-secondary backToMenu" (click)="backToMenu()">Back To Menu</button>
+  <button type="button" class="btn btn-success checkinBtn" (click)="checkIn()">Check-In</button>
+</footer>
+<div class="thanksDiv" *ngIf="isCompleted">
+  <div><i class="fa fa-check-circle thankIcon" aria-hidden="true"></i></div>
+  <div><span class="thanksLbl">Thank you</span></div>
+  <div><span class="waitingLbl">Your waiting queue position<span><div>
+  <div><span class="waitingCount">{{waitingNo}}</span></div>
+</div>

@@ -1,0 +1,29 @@
+<div class="container app-container">
+  <div class="mt-1 mb-2 welcomeFont welcomeColor">Welcome {{customerName}}</div>
+  <div class="row" *ngIf="!showItems">
+    <div class="col-4" *ngFor="let category of categoriesList; let i=index">
+      <div class="categoryTile point" [style.background]="getColorCode(i)"(click)="categorySelect(category)">{{category.categoryName}}</div>
+    </div>
+  </div>
+  <ul class="list-group" style="margin-bottom: 92px;" *ngIf="showItems">
+    <li class="list-group-item list-header welcomeFont">{{selectedCategoryName}}</li>
+    <li *ngFor="let item of selectedItemsList; let i = index" class="list-group-item menuFont">
+      <div class="row">
+        <div class="col-7">{{item.item}}</div>
+        <div class="col-2"><span class="right-align">$ {{item.price}}</span></div>
+        <div class="col-3" *ngIf="!isItemAdded(item._id)">
+          <button type="button" class="btn btn-primary right-align" (click)="addToCart(item)">Add</button>
+        </div>
+        <div class="col-3" *ngIf="isItemAdded(item._id)">
+          <button type="button" class="btn btn-light item-btn" (click)="decreaseItem(item._id)">-</button>
+          <span class="item_qnty">{{getAddedItemCount(item._id)}}</span>
+          <button type="button" class="btn btn-light item-btn" (click)="increaseItem(item._id)">+</button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<footer *ngIf="showItems" class="footer mt-auto py-3 bg-light app-footer">
+  <button type="button" class="btn btn-secondary backToMenu" (click)="backToMenu()">Back To Menu</button>
+  <button type="button" class="btn btn-primary nextBtn" [disabled]="isNextDisabled"(click)="next()">Next</button>
+</footer>
